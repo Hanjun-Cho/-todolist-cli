@@ -1,0 +1,4 @@
+create a todo list cli program which can:
+1. list tasks for today
+2. list tasks from any given date
+3. edit, remove, or add new tasks to any date
