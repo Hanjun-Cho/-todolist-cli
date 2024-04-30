@@ -1,1 +1,1 @@
-# -todolist-cli
+# todolist CLI
