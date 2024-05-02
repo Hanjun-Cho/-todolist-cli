@@ -15,7 +15,7 @@ def create_app(testing):
     app.db = db
     with app.app_context():
         initialize_database(db, testing=testing)
-        from api import api
+        from views.api import api
         app.register_blueprint(api)
     return app
 
