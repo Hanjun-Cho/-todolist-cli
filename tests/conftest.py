@@ -1,9 +1,10 @@
 import pytest
 from app import create_app
+from flask_mysqldb import MySQL
 
 @pytest.fixture()
 def app():
-    app = create_app()
+    app = create_app(testing=True)
     app.config.update({
         "TESTING": True,
     })

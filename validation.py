@@ -1,5 +1,5 @@
 from datetime import datetime
-from testData import testData
+from flask import redirect, url_for
 
 class DateValidation:
     def __init__(self, date):
@@ -8,12 +8,8 @@ class DateValidation:
     def validate_date(self):
         try: 
             dt = datetime.strptime(self.date, '%Y-%b-%d')
-            self.initialize_date()
-            return True
-        except ValueError:
-            raise ValueError("incorrect date format")
-
-    def initialize_date(self):
-        if self.date not in testData:
-            testData[self.date] = {}
-            testData[self.date]["tasks"] = []
+            return {}
+        except ValueError: 
+            return {
+                "error": "invalid date format",
+            }
