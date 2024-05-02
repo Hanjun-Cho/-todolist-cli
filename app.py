@@ -1,9 +1,10 @@
-import sys
+from flask import Flask, request
 
-n = len(sys.argv)
-print("total arguments pass: ", n)
+def create_app():
+    app = Flask(__name__)
+    from api import api
+    app.register_blueprint(api)
+    return app
 
-name = sys.argv[0]
-a = sys.argv[1]
-b = sys.argv[2]
-print(a + b)
+if __name__ in "__main__":
+    create_app()

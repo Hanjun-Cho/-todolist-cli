@@ -1,4 +1,4 @@
-create a todo list cli program which can:
-1. list tasks for today
-2. list tasks from any given date
-3. edit, remove, or add new tasks to any date
+1. Backend API (FastAPI) - handles all the database queries and other actions
+2. CLI (NodeJS) - handles the commands inputted by user
+3. Frontend (ReactJS) - displays everything as a frontend
+4. Find Cloud Database Server (mySQL, MongoDB, Postgres)
