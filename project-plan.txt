@@ -1,4 +1,0 @@
-1. Backend API (FastAPI) - handles all the database queries and other actions
-2. CLI (NodeJS) - handles the commands inputted by user
-3. Frontend (ReactJS) - displays everything as a frontend
-4. Find Cloud Database Server (mySQL, MongoDB, Postgres)
