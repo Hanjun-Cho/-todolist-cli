@@ -116,14 +116,14 @@ def remove_task_from_date(task_id, date):
     except Exception:
         raise Exception(f"error: could not remove task with taskID {taskID}")
 
-# renames the task title with the given task_id from the given date
+# renames the task title with the given task_id
 # from the database into new_title
-def rename_task_from_date(task_id, date, new_title):
+def db_rename_task(task_id, new_title):
     try:
         cursor = current_app.db.connection.cursor()
         sql_query = f"""
             UPDATE {current_app.config["TASK_TABLE"]} 
-            SET Title='{new_title}' WHERE TaskID={task_id}
+            SET Title='{new_title}' WHERE TaskID={task_id};
         """
         cursor.execute(sql_query)
         current_app.db.connection.commit()

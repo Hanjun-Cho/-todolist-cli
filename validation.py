@@ -21,7 +21,6 @@ class TaskDataFormatValidation:
         if "Title" not in task: raise ValueError("error: title not in given task data")
         if "Priority" not in task: raise ValueError("error: priority not in given task data")
         if "AccountedFor" not in task: raise ValueError("error: accounted for not in given task data")
-        if "Date" not in task: raise ValueError("error: date not in given task data")
 
 # class which validates that the given taskID
 # exists within the database
