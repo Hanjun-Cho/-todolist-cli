@@ -4,7 +4,8 @@ A Basic Responsive Calendar WebApp and CLI Program
 ## Project Description:
 This is a personal project I decided to work on after starting to use
 a Windows Subsystem for Linux (WSL). Used this program as a way to
-configure, customize, and get accustomed to Nvim.
+configure, customize, and get accustomed to Nvim while getting my
+hands dirty with mySQL.
 
 The program is built into 3 sections - Backend API, Frontend WebApp, and
 Command Line Interface (CLI) Program - which uses **Python (Flask)**, 
