@@ -10,7 +10,7 @@ The program is built into 3 sections - Backend API, Frontend WebApp, and
 Command Line Interface (CLI) Program - which uses **Python (Flask)**, 
 **ReactJS** and **NodeJS** respectfully.
 
-## Running the Calendar:
+## Running the Calendar CLI Program:
 Start by cloning - and updating - the directory
 ```
 git clone https://github.com/Hanjun-Cho/Calendar-App
@@ -27,7 +27,6 @@ Within, you need to include 4 separate variables:
 *MYSQL_USER* and *MYSQL_PASSWORD* for the login details into the mySQL server
 and *MYSQL_DB* for the specific database this calendar program will be using
 ```
-in secret.py:
 MYSQL_HOST: localhost
 MYSQL_USER: username
 MYSQL_PASSWORD: password
@@ -41,3 +40,4 @@ in debug mode:
 . bin/activate
 flask --app app run --debug
 ```
+
