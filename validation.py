@@ -26,17 +26,17 @@ class TaskDataFormatValidation:
 # class which validates that the given taskID
 # exists within the database
 class TaskIDValidation:
-    def __init__(self, taskID):
-        self.validate_taskID(taskID)
+    def __init__(self, task_id):
+        self.validate_task_id(task_id)
 
-    def validate_taskID(self, taskID):
+    def validate_task_id(self, task_id):
         try:
             cursor = current_app.db.connection.cursor()
             sql_query = f"""
                 SELECT * FROM {current_app.config['TASK_TABLE']} WHERE
-                TaskID={taskID};
+                TaskID={task_id};
             """
             cursor.execute(sql_query)
             cursor.close()
         except Exception:
-            raise Exception("error: invalid taskID given")
+            raise Exception("error: invalid task_id given")

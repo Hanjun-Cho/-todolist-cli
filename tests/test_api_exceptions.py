@@ -51,15 +51,27 @@ def test_add_task_to_date_no_date(client):
 # checks that tasks are disallowed from being removed from invalid dates
 def test_remove_task_from_invalid_date(client):
     with pytest.raises(ValueError) as e_info:
-        response = client.post('/api/remove_task/abcd/3', data = {
-            "date": 'abcd', 'taskID': 3
+        response = client.get('/api/remove_task/abcd/3')
+        assert "error: invalid date format" == str(e_info)
+
+# checks that non-existent tasks are disallowed from being removed
+def test_remove_invalid_task_from_date(client):
+    with pytest.raises(Exception) as e_info:
+        response = client.get('/api/remove_task/2024-May-1/4')
+        assert "error: invalid task_id given" == str(e_info)
+
+# checks that tasks with invalid date aren't allowed to be renamed
+def test_rename_task_from_invalid_date(client):
+    with pytest.raises(ValueError) as e_info:
+        response = client.post('/api/rename_task/abcd/3', data = {
+            "new_title": "new task3"
         })
         assert "error: invalid date format" == str(e_info)
 
-# checks that invalid tests are disallowed from being removed
-def test_remove_invalid_task_from_date(client):
+# checks that non-existent tasks are disallowed from being renamed
+def test_rename_invalid_task_from_date(client):
     with pytest.raises(Exception) as e_info:
-        response = client.post('/api/remove_task/2024-May-1/4', data = {
-            "date": '2024-May-1', 'taskID': 4
+        response = client.post('/api/rename_task/2024-May-1/4', data = {
+            "new_title": "new task3"
         })
-        assert "error: invalid taskID given" == str(e_info)
+        assert "error: invalid task_id given" == str(e_info)

@@ -22,8 +22,16 @@ def test_add_valid_task_to_date(client):
 # checks that a valid taskID from the correct date is 
 # removed correctly from the databse
 def test_remove_valid_task_to_date(client):
-    response = client.post('/api/remove_task/2024-May-1/3', data = {
-        "date": "2024-May-1", "taskID": 3
-    })
+    response = client.get('/api/remove_task/2024-May-1/3')
     assert response.status_code == 200
     assert len(response.json) == 0
+
+# checks that a valid task with the given taskID is
+# renamed correctly according to new_title in database
+def test_rename_valid_task_to_date(client):
+    response = client.post('/api/rename_task/2024-May-1/3', data = {
+        "new_title": "new task3"
+    })
+    assert response.status_code == 200
+    assert len(response.json) == 1
+    assert response.json[0]["Title"] == "new task3"
