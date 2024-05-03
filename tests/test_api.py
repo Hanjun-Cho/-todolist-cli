@@ -13,7 +13,7 @@ def test_get_valid_date_tasks(client):
 # valid date with valid form data
 def test_add_valid_task_to_date(client):
     response = client.post('/api/add_task/2024-May-1', data = {
-        "Title": "task4", "Priority": "MEDIUM", "Status": 0, "Date": "2024-May-1"             
+        "Title": "task4", "Priority": "MEDIUM", "AccountedFor": 0, "Date": "2024-May-1"             
     })
     assert response.status_code == 200
     assert len(response.json) == 2

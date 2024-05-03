@@ -13,6 +13,7 @@ def create_app(testing):
     app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
     app.config['TESTING'] = testing
     app.config['TASK_TABLE'] = "tasks" if not testing else "test_tasks"
+    app.config['BLOCK_TABLE'] = "blocks" if not testing else "test_blocks"
     db = MySQL(app)
     app.db = db
     with app.app_context():
