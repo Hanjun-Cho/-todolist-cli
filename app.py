@@ -3,8 +3,14 @@ from flask_mysqldb import MySQL
 from database import db_initialize_database
 import secret
 
+def create_app():
+    return init_app(testing=False)
+
+def create_testing_app():
+    return init_app(testing=True)
+
 # creates flask application and sets up database configurations
-def create_app(testing):
+def init_app(testing):
     app = Flask(__name__)
     app.config['MYSQL_HOST'] = secret.MYSQL_HOST
     app.config['MYSQL_USER'] = secret.MYSQL_USER
@@ -21,6 +27,3 @@ def create_app(testing):
         from views.api import api
         app.register_blueprint(api)
     return app
-
-if __name__ in "__main__":
-    create_app(testing=False)
