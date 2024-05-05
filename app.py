@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_mysqldb import MySQL
-from database import initialize_database
+from database import db_initialize_database
 import secret
 
 # creates flask application and sets up database configurations
@@ -17,7 +17,7 @@ def create_app(testing):
     db = MySQL(app)
     app.db = db
     with app.app_context():
-        initialize_database()
+        db_initialize_database()
         from views.api import api
         app.register_blueprint(api)
     return app

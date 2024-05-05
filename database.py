@@ -1,20 +1,20 @@
 from flask import jsonify, current_app
 
 # initializes the mySQL database if it doesn't already
-def initialize_database():
+def db_initialize_database():
     try:
         cursor = current_app.db.connection.cursor()
         if current_app.config['TESTING']: 
             cursor.execute(f"DROP TABLE IF EXISTS {current_app.config['TASK_TABLE']};")
             cursor.execute(f"DROP TABLE IF EXISTS {current_app.config['BLOCK_TABLE']};")
-        initialize_task_database(cursor)
-        initialize_block_database(cursor)
+        db_initialize_task_database(cursor)
+        db_initialize_block_database(cursor)
         cursor.close()
     except Exception:
         raise Exception("error: database wasn't initialized")
 
 # initializes the task table into the database
-def initialize_task_database(cursor):
+def db_initialize_task_database(cursor):
     sql_query = f"""
         CREATE TABLE IF NOT EXISTS {current_app.config['TASK_TABLE']} (
             TaskID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -25,11 +25,11 @@ def initialize_task_database(cursor):
         );
     """
     cursor.execute(sql_query)
-    fill_test_task_database(cursor)
+    db_fill_test_task_database(cursor)
     current_app.db.connection.commit()
 
 # fills the testing task database needed to run pytests
-def fill_test_task_database(cursor):
+def db_fill_test_task_database(cursor):
     if not current_app.config['TESTING']: return
     try:
         cursor.execute(f"""
@@ -45,7 +45,7 @@ def fill_test_task_database(cursor):
         raise Exception("error: wasn't able to fill test task database'")
 
 # initializes the block table into the database
-def initialize_block_database(cursor):
+def db_initialize_block_database(cursor):
     sql_query = f"""
         CREATE TABLE IF NOT EXISTS {current_app.config['BLOCK_TABLE']} (
             BlockID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -57,11 +57,11 @@ def initialize_block_database(cursor):
         );
     """
     cursor.execute(sql_query)
-    fill_test_block_database(cursor)
+    db_fill_test_block_database(cursor)
     current_app.db.connection.commit()
 
 # fills the testing task database needed to run pytests
-def fill_test_block_database(cursor):
+def db_fill_test_block_database(cursor):
     if not current_app.config['TESTING']: return
     try:
         cursor.execute(f"""
@@ -77,7 +77,7 @@ def fill_test_block_database(cursor):
         raise Exception("error: wasn't able to fill test block database'")
 
 # produces all tasks as a list from the given date
-def get_tasks_from_date(date):
+def db_get_tasks_from_date(date):
     try:
         cursor = current_app.db.connection.cursor()
         sql_query = f"SELECT * FROM {current_app.config['TASK_TABLE']} WHERE Date='{date}';"
@@ -89,7 +89,7 @@ def get_tasks_from_date(date):
         raise Exception(f"error: unable to fetch tasks from {date}")
 
 # inserts a new task given the task data on the given date
-def add_task_to_date(task, date):
+def db_add_task_to_date(task, date):
     try:
         cursor = current_app.db.connection.cursor()
         sql_query = f"""
@@ -103,7 +103,7 @@ def add_task_to_date(task, date):
         raise Exception(f"error: unable to add task to {date}")
 
 # removes the task with given task_id from the given date from the database
-def remove_task_from_date(task_id, date):
+def db_remove_task_from_date(task_id, date):
     try:
         cursor = current_app.db.connection.cursor()
         sql_query = f"""
