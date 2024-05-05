@@ -76,57 +76,57 @@ def db_fill_test_block_database(cursor):
     except Exception:
         raise Exception("error: wasn't able to fill test block database'")
 
-# produces all tasks as a list from the given date
-def db_get_tasks_from_date(date):
+def execute_query(query, err_message, fetch):
     try:
         cursor = current_app.db.connection.cursor()
-        sql_query = f"SELECT * FROM {current_app.config['TASK_TABLE']} WHERE Date='{date}';"
-        cursor.execute(sql_query)
-        tasks = cursor.fetchall()
-        cursor.close()
-        return jsonify(tasks)
-    except Exception:
-        raise Exception(f"error: unable to fetch tasks from {date}")
-
-# inserts a new task given the task data on the given date
-def db_add_task_to_date(task, date):
-    try:
-        cursor = current_app.db.connection.cursor()
-        sql_query = f"""
-            INSERT INTO {current_app.config['TASK_TABLE']} (Title,Priority,AccountedFor,Date)
-            VALUES ('{task["Title"]}','{task["Priority"]}',{task["AccountedFor"]},'{date}');
-        """
-        cursor.execute(sql_query)
+        cursor.execute(query)
+        if fetch: ret = cursor.fetchall()
         current_app.db.connection.commit()
         cursor.close()
+        if fetch: return jsonify(ret)
     except Exception:
-        raise Exception(f"error: unable to add task to {date}")
+        raise Exception(f"error: {err_message}")
 
-# removes the task with given task_id from the given date from the database
-def db_remove_task_from_date(task_id, date):
-    try:
-        cursor = current_app.db.connection.cursor()
-        sql_query = f"""
-            DELETE FROM {current_app.config['TASK_TABLE']} 
-            WHERE TaskID={task_id} AND Date='{date}';
-        """
-        cursor.execute(sql_query)
-        current_app.db.connection.commit()
-        cursor.close()
-    except Exception:
-        raise Exception(f"error: could not remove task with taskID {taskID}")
+def add_task(date, task_data):
+    query = f"""
+        INSERT INTO {current_app.config['TASK_TABLE']} (Title,Priority,AccountedFor,Date)
+        VALUES ('{task_data["Title"]}', '{task_data["Priority"]}', '{task_data["AccountedFor"]}', '{date}');
+    """
+    execute_query(query, f"couldn't add task to {date}", False)
+    return execute_query("SELECT @@IDENTITY as last;", f"couldn't fetch last inserted task_id", True).json[0]["last"]
 
-# renames the task title with the given task_id
-# from the database into new_title
-def db_rename_task(task_id, new_title):
-    try:
-        cursor = current_app.db.connection.cursor()
-        sql_query = f"""
-            UPDATE {current_app.config["TASK_TABLE"]} 
-            SET Title='{new_title}' WHERE TaskID={task_id};
-        """
-        cursor.execute(sql_query)
-        current_app.db.connection.commit()
-        cursor.close()
-    except Exception:
-        raise Exception(f"error: could not rename task with taskID {taskID}")
+def add_block(date, block_data):
+    query = f"""
+        INSERT INTO {current_app.config['BLOCK_TABLE']} (Title,StartTime,EndTime,Finished,Date)
+        VALUES ('{block_data["Title"]}', '{block_data["StartTime"]}', '{block_data["EndTime"]}', '{block_data["Finished"]}', '{date}');
+    """
+    execute_query(query, f"couldn't add block to {date}", False)
+    return execute_query("SELECT @@IDENTITY as last;", f"couldn't fetch last inserted block_id", True).json[0]["last"]
+
+def get_all_tasks(date):
+    query = f"""
+        SELECT * FROM {current_app.config['TASK_TABLE']}
+        WHERE Date='{date}';
+    """
+    return execute_query(query, f"couldn't get any tasks from {date}", True)
+
+def get_all_blocks(date):
+    query = f"""
+        SELECT * FROM {current_app.config['BLOCK_TABLE']}
+        WHERE Date='{date}';
+    """
+    return execute_query(query, f"couldn't get any blocks from {date}", True)
+
+def get_task(date, task_id):
+    query = f"""
+        SELECT * FROM {current_app.config['TASK_TABLE']}
+        WHERE Date='{date}' AND TaskID={task_id};
+    """
+    return execute_query(query, f"unable to fetch task with task_id {task_id}", True).json[0]
+
+def get_block(date, block_id):
+    query = f"""
+        SELECT * FROM {current_app.config['BLOCK_TABLE']}
+        WHERE Date='{date}' AND BlockID={block_id};
+    """
+    return execute_query(query, f"unable to fetch block with block_id {block_id}", True).json[0]
