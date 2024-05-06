@@ -144,3 +144,21 @@ def remove_block(date, block_id):
         WHERE Date='{date}' AND BlockID={block_id};
     """
     return execute_query(query, f"unable to delete task with block_id {block_id}", False)
+
+def update_task(date, task_data, task_id):
+    query = f"""
+        UPDATE {current_app.config['TASK_TABLE']}
+        SET Title='{task_data["Title"]}', Priority='{task_data["Priority"]}',
+        AccountedFor='{task_data["AccountedFor"]}', Date='{task_data["Date"]}'
+        WHERE TaskID='{task_id}';
+    """
+    return execute_query(query, f"unable to update task with task_id {task_id}", False)
+
+def update_block(date, block_data, block_id):
+    query = f"""
+        UPDATE {current_app.config['BLOCK_TABLE']}
+        SET Title='{block_data["Title"]}', StartTime='{block_data["StartTime"]}',
+        EndTime='{block_data["EndTime"]}', Finished='{block_data["Finished"]}',
+        Date='{block_data["Date"]}' WHERE BlockID='{block_id}';
+    """
+    return execute_query(query, f"unable to update task with block_id {block_id}", False)

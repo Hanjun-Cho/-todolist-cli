@@ -7,17 +7,21 @@ class DateValidation:
         except ValueError: raise ValueError("error: invalid date format given")
 
 class TaskDataFormatValidation:
-    def __init__(self, task):
+    def __init__(self, task, update):
         if "Title" not in task: raise ValueError("error: title not in given task data")
         if "Priority" not in task: raise ValueError("error: priority not in given task data")
         if "AccountedFor" not in task: raise ValueError("error: accounted for not in given task data")
+        if update:
+            if "Date" not in task: raise ValueError("error: date not in given task data")
 
 class BlockDataFormatValidation:
-    def __init__(self, block):
+    def __init__(self, block, update):
         if "Title" not in block: raise ValueError("error: title not in given block data")
         if "StartTime" not in block: raise ValueError("error: start time not in given block data")
         if "EndTime" not in block: raise ValueError("error: end time not in given block data")
         if "Finished" not in block: raise ValueError("error: finished not in given block data")
+        if update:
+            if "Date" not in block: raise ValueError("error: date not in given block data")
 
 class TaskIDValidation:
     def __init__(self, date, task_id):
