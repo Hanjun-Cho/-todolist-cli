@@ -130,3 +130,17 @@ def get_block(date, block_id):
         WHERE Date='{date}' AND BlockID={block_id};
     """
     return execute_query(query, f"unable to fetch block with block_id {block_id}", True).json[0]
+
+def remove_task(date, task_id):
+    query = f"""
+        DELETE FROM {current_app.config['TASK_TABLE']}
+        WHERE Date='{date}' AND TaskID={task_id};
+    """
+    return execute_query(query, f"unable to delete task with task_id {task_id}", False)
+
+def remove_block(date, block_id):
+    query = f"""
+        DELETE FROM {current_app.config['BLOCK_TABLE']}
+        WHERE Date='{date}' AND BlockID={block_id};
+    """
+    return execute_query(query, f"unable to delete task with block_id {block_id}", False)

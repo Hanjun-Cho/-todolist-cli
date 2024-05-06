@@ -11,7 +11,7 @@ def task(date, task_id):
     if request.method == 'GET':
         return db.get_task(date, task_id)
     elif request.method == 'DELETE':
-        db.remove_task(task_id)
+        db.remove_task(date, task_id)
         return {'message': 'successfully removed task'}
 
 
@@ -23,7 +23,7 @@ def block(date, block_id):
     if request.method == 'GET':
         return db.get_block(date, block_id)
     elif request.method == 'DELETE':
-        db.remove_block(block_id)
+        db.remove_block(date, block_id)
         return {'message': 'successfully removed block'}
 
 @api.route("/<date>/tasks", methods=['GET', 'POST'])
